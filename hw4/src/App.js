@@ -1,20 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+
+import Home from './home';
+// import Shop from './shop';
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+  constructor(props){
+    super(props);    
+    this.state = {
+      isShopPage: false,
+    }
+  }
+
+  togglePage(){
+    this.setState({
+      isShopPage: !this.state.isShopPage,
+    });
+  } 
+
+  render(){
+    const isShopPage = this.state.isShopPage;
+    if(isShopPage){
+      // This will be return <Shop /> in due time.
+      console.log("Should return Shop!");
+      return <Home onClick={() => this.togglePage()}/>;
+    }else{
+      console.log("Should render Home!");
+      return <Home onClick={() => this.togglePage()}/>;
+    }
   }
 }
 
