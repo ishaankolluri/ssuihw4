@@ -75,7 +75,7 @@ class App extends Component {
           cartSize += 1;
         }
         if(sign === "minus"){
-          if(quantity === 0){
+          if(quantity === 1){
             return;
           }
           currentCart[i].quantity = quantity - 1;
@@ -88,6 +88,24 @@ class App extends Component {
       isShopPage: this.state.isShopPage,
       currentCart: currentCart,
       cartSize: cartSize,
+      isCartShowing: this.state.isCartShowing,
+    })
+  }
+
+  handleRemove(id){
+    let currentCart = this.state.currentCart.slice();
+    let quantity = 0;
+    for(let i = 0; i < currentCart.length; i++){
+      if(currentCart[i].index === id){
+        quantity = currentCart[i].quantity;
+        currentCart.splice(i, 1);
+        break;
+      }
+    }
+    this.setState({
+      isShopPage: this.state.isShopPage,
+      currentCart: currentCart,
+      cartSize: this.state.cartSize - quantity,
       isCartShowing: this.state.isCartShowing,
     })
   }
@@ -119,6 +137,7 @@ class App extends Component {
           isCartShowing={this.state.isCartShowing}
           onToggleModal={() => this.onToggleModal()}
           onUpdate={(id, sign) => this.handleUpdate(id, sign)}
+          onRemove={(id) => this.handleRemove(id)}
         />
         {appContent}
       </div>

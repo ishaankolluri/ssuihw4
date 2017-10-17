@@ -32,7 +32,6 @@ class ShoppingCart extends Component {
     let cartModal = currentCart.map((roll, index) => {
       let source = "https://s3.amazonaws.com/bunbunbakeshop/" + flavorImages[roll.index];
       let name = flavorNames[index];
-      let button_id = roll.index + "_remove";
       return (
         <div key={roll.index} className="modalRow">
           <div className="modalImg">
@@ -54,7 +53,7 @@ class ShoppingCart extends Component {
                   onUpdate={(id) => this.props.onUpdate(id, "minus")}
                 />
               </div>
-              <button id={button_id} className="modalRemove" onClick={() => alert('this was remove')}>Remove</button>
+              <button className="modalRemove" onClick={(id) => this.props.onRemove(roll.index)}>Remove</button>
             </div>
           </div>
           <div className="modalPrice">{this.calculateItemizedCost(roll)}</div>
