@@ -3,14 +3,23 @@ import './css/nav.css';
 
 
 class Nav extends Component{
+  checkActivePage(query){
+    let activePage = this.props.active;
+    let activeClass = "";
+    if(activePage === query){
+      activeClass = "activeNav";
+    }
+    return activeClass;
+  }
+
   render(){
     return (
       <div className="navContainer">
         <ul>
-          <li><a className="activeNav">HOME</a></li>
-          <li><a onClick={() => this.props.onClick()}>SHOP</a></li>
+          <li><a className={this.checkActivePage("home")}>HOME</a></li>
+          <li><a className={this.checkActivePage("shop")} onClick={() => this.props.onClick()}>SHOP</a></li>
           
-          <svg id="cartContainer" width="46px" height="40px" viewBox="0 0 46 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <svg id="cartContainer" width="46px" height="40px" viewBox="0 0 46 40" version="1.1" xmlns="http://www.w3.org/2000/svg" onClick={() => this.props.onToggleModal()}>
             <desc>Created with Sketch.</desc>
             <defs></defs>
             <g id="HiFi-Cinnabon" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -20,7 +29,7 @@ class Nav extends Component{
                         <circle id="Oval" fillRule="nonzero" cx="18.1818182" cy="38.1818182" r="1.81818182"></circle>
                         <circle id="Oval" fillRule="nonzero" cx="34.5454545" cy="38.1818182" r="1.81818182"></circle>
                         <text fontFamily="Poppins-ExtraLight, Poppins" fontSize="20" fontWeight="300" letterSpacing="0.800000012">
-                            <tspan id="cartNumber" x="21.86" y="25">0</tspan>
+                            <tspan id="cartNumber" x="21.86" y="25">{this.props.cartSize}</tspan>
                         </text>
                     </g>
                 </g>

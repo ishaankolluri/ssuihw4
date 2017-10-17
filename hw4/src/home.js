@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Nav from './nav';
 import Hero from './hero';
 import Contact from './contact';
 import FeaturedFlavors from './featured';
@@ -20,13 +19,11 @@ class Home extends Component {
   render(){
     return (
       <div id="Home">
-        <h1>Bun Bun Bake Shop</h1>
-        <Nav onClick={()=> this.props.onClick()} />
         <Hero />
         <Contact />
-        <FeaturedFlavors />
-        {/* <ShoppingCart />
-        <Alert /> */}
+        <FeaturedFlavors
+          onAddToCart={(index, quantity) => this.props.onAddToCart(index, quantity)}
+        />
       </div>
       );
   }
