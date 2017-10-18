@@ -16,8 +16,8 @@ class Nav extends Component{
     return (
       <div className="navContainer">
         <ul>
-          <li><a className={this.checkActivePage("home")}>HOME</a></li>
-          <li><a className={this.checkActivePage("shop")} onClick={() => this.props.onClick()}>SHOP</a></li>
+          <li><a className={this.checkActivePage("home")} onClick={() => this.props.onClick("home")}>HOME</a></li>
+          <li><a className={this.checkActivePage("shop")} onClick={() => this.props.onClick("shop")}>SHOP</a></li>
           
           <svg id="cartContainer" width="46px" height="40px" viewBox="0 0 46 40" version="1.1" xmlns="http://www.w3.org/2000/svg" onClick={() => this.props.onToggleModal()}>
             <desc>Created with Sketch.</desc>

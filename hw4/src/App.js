@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import Home from './home';
 import Nav from "./nav";
 import ShoppingCart from './shoppingcart';
-// import Shop from './shop';
+import Shop from './shop';
+import ProductModal from "./productmodal";
 
 
 class App extends Component {
@@ -14,12 +15,26 @@ class App extends Component {
       currentCart: [],
       cartSize: 0,
       isCartShowing: false,
+      activeDetailId: 0,
+      isDetailModalShowing: false
     };
   }
 
-  onTogglePage(){
+  onTogglePage(pageName){
+    let shopPage = false;
+    if(pageName === "shop"){
+      shopPage = true;
+    }
+    if(pageName === "home"){
+      shopPage = false;
+    }
     this.setState({
-      isShopPage: !this.state.isShopPage,
+      isShopPage: shopPage,
+      currentCart: this.state.currentCart,
+      cartSize: this.state.cartSize,
+      isCartShowing: false,
+      activeDetailId: this.state.activeDetailId,
+      isDetailModalShowing: false
     });
   }
 
@@ -29,10 +44,27 @@ class App extends Component {
       currentCart: this.state.currentCart,
       cartSize: this.state.cartSize,
       isCartShowing: !this.state.isCartShowing,
+      activeDetailId: this.state.activeDetailId,
+      isDetailModalShowing: this.state.isDetailModalShowing
+    });
+  }
+
+  onToggleDetailModal(flavorIndex){
+    console.log("Toggle Index: " + flavorIndex);
+    this.setState({
+      isShopPage: this.state.isShopPage,
+      currentCart: this.state.currentCart,
+      cartSize: this.state.cartSize,
+      isCartShowing: this.state.isCartShowing,
+      activeDetailId: flavorIndex,
+      isDetailModalShowing: !this.state.isDetailModalShowing
     });
   }
 
   handleAddToCart(id, quantity){
+    if(quantity === 0){
+      return;
+    }
     let currentCart = this.state.currentCart.slice();
     if(currentCart.length === 0){
       currentCart.push({
@@ -49,7 +81,6 @@ class App extends Component {
         if(itemAddedAlready) break;
       }
       if(!itemAddedAlready){
-        console.log("Added already!");
         currentCart.push({
           index: id,
           quantity: quantity,
@@ -61,6 +92,8 @@ class App extends Component {
       currentCart: currentCart,
       cartSize: this.state.cartSize + quantity,
       isCartShowing: !this.state.isCartShowing,
+      activeDetailId: this.state.activeDetailId,
+      isDetailModalShowing: false
     });
   }
 
@@ -89,6 +122,8 @@ class App extends Component {
       currentCart: currentCart,
       cartSize: cartSize,
       isCartShowing: this.state.isCartShowing,
+      activeDetailId: this.state.activeDetailId,
+      isDetailModalShowing: this.state.isDetailModalShowing
     })
   }
 
@@ -107,16 +142,29 @@ class App extends Component {
       currentCart: currentCart,
       cartSize: this.state.cartSize - quantity,
       isCartShowing: this.state.isCartShowing,
+      activeDetailId: this.state.activeDetailId,
+      isDetailModalShowing: this.state.isDetailModalShowing
     })
   }
 
   render(){
+    console.log("what's being passed in state: " + this.state.activeDetailId);
     const isShopPage = this.state.isShopPage;
     let appContent;
     if(isShopPage){
-      // will be <Shop />.
       appContent = (
-        <Home onAddToCart={(index, quantity) => this.handleAddToCart(index, quantity)}/>
+        <div id="shopContent">
+          <Shop
+            onAddToCart={(flavorIndex, displayedQuantity) => this.handleAddToCart(flavorIndex, displayedQuantity)}
+            onDetailClick={(flavorIndex) => this.onToggleDetailModal(flavorIndex)}
+          />
+          <ProductModal
+            activeDetailId={this.state.activeDetailId}
+            isDetailModalShowing={this.state.isDetailModalShowing}
+            onDetailAddClick={(flavorIndex, displayedQuantity) => this.handleAddToCart(flavorIndex, displayedQuantity)}
+            onToggleDetailModalClick={(index) => this.onToggleDetailModal(index)}
+          />
+        </div>
       );
     }else{
       appContent = (
@@ -128,7 +176,7 @@ class App extends Component {
         <h1>Bun Bun Bake Shop</h1>
         <Nav
           active="home"
-          onClick={() => this.onTogglePage()}
+          onClick={(pageName) => this.onTogglePage(pageName)}
           onToggleModal={() => this.onToggleModal()}
           cartSize={this.state.cartSize}
         />
