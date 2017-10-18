@@ -20,9 +20,16 @@ class App extends Component {
     };
   }
 
-  onTogglePage(){
+  onTogglePage(pageName){
+    let shopPage = false;
+    if(pageName === "shop"){
+      shopPage = true;
+    }
+    if(pageName === "home"){
+      shopPage = false;
+    }
     this.setState({
-      isShopPage: !this.state.isShopPage,
+      isShopPage: shopPage,
       currentCart: this.state.currentCart,
       cartSize: this.state.cartSize,
       isCartShowing: false,
@@ -169,7 +176,7 @@ class App extends Component {
         <h1>Bun Bun Bake Shop</h1>
         <Nav
           active="home"
-          onClick={() => this.onTogglePage()}
+          onClick={(pageName) => this.onTogglePage(pageName)}
           onToggleModal={() => this.onToggleModal()}
           cartSize={this.state.cartSize}
         />
