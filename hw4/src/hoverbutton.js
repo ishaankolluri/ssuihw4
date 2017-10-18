@@ -6,6 +6,7 @@ class HoverButton extends Component {
   constructor(props){
     super(props);
     this.id = this.props.productId;
+    this.class = this.props.className;
     this.sign = this.props.sign;
     this.state = {
       hover: false,
@@ -29,6 +30,8 @@ class HoverButton extends Component {
     const source = URL + this.sign + (this.state.hover === true ? "hover" : "") + ".svg";
     return (
       <img
+        id={this.props.id}
+        className={this.props.className}
         src={source}
         onMouseOver={() => this.mouseOver()}
         onMouseOut={() => this.mouseOut()}

@@ -24,14 +24,14 @@ class ShoppingCart extends Component {
     let flavorImages = GlobalFlavors.flavors;
     let flavorNames = GlobalFlavors.names;
     let currentCart = this.props.currentCart;
-    let totalCost = this.calculateTotalCost(currentCart); // Only display checkout row if there is a cart to show
+    let totalCost = this.calculateTotalCost(currentCart);
 
     if(currentCart.length === 0){
       return <div className="modalHeaderContent">You have no items in your cart.</div>
     }
     let cartModal = currentCart.map((roll, index) => {
       let source = "https://s3.amazonaws.com/bunbunbakeshop/" + flavorImages[roll.index];
-      let name = flavorNames[index];
+      let name = flavorNames[roll.index];
       return (
         <div key={roll.index} className="modalRow">
           <div className="modalImg">
